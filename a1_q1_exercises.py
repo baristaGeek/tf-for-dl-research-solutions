@@ -123,7 +123,13 @@ out, idx = tf.unique(x)
 # Hint: see the Huber loss function in the lecture slides 3.
 ###############################################################################
 
-out = tf.random_normal
+x = tf.random_normal([300], mean = 5, stddev = 1)
+y = tf.random_normal([300], mean = 5, stddev = 1)
+avg = tf.reduce_mean(x - y)
+cond = tf.less(avg, 0)
+left_op = tf.reduce_mean(tf.square(x-y))
+right_op = tf.reduce_mean(tf.abs(x-y))
+out = tf.where(cond, left_op, right_op) #tf.select() has been fucking deprecated
 
 with tf.Session() as sess:
     out = sess.run([out])
